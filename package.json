@@ -3,23 +3,37 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev && tauri dev",
+    "dev:next": "next dev --turbopack",
+    "dev:tauri": "tauri dev",
     "build": "next build",
+    "build:tauri": "tauri build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@date-io/date-fns": "^3.2.1",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@fontsource/roboto": "^5.2.5",
+    "@mui/material": "^7.0.2",
+    "@prisma/client": "^6.6.0",
+    "axios": "^1.8.4",
+    "date-fns": "^4.1.0",
+    "next": "15.3.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "next": "15.3.1"
+    "react-big-calendar": "^1.18.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "@types/react": "^19",
+    "@types/react-big-calendar": "^1.16.1",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.3.1",
-    "@eslint/eslintrc": "^3"
+    "prisma": "^6.6.0",
+    "typescript": "^5"
   }
 }

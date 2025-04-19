@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+
+// ---------------------------
+// 日记管理
+// ---------------------------
+model DiaryEntry {
+  id          Int         @id @default(autoincrement())
+  title       String
+  content     String
+  date        Int
+}
+
+
+// ---------------------------
+// 待办事项管理
+// ---------------------------
+model Todo {
+  id          Int           @id @default(autoincrement())
+  title       String        
+  description String?      
+  status      TodoStatus    @default(Pending)
+  priority    Int           @default(3)
+  category    String?
+  dueDate     Int?
+  createdAt   Int
+  updatedAt   Int?
+}
+
+enum TodoStatus {
+  Pending
+  InProgress
+  Completed
+}
+
+
+// ---------------------------
+// 记账管理
+// ---------------------------
+model Finance {
+  id          Int         @id @default(autoincrement())
+  amount      Decimal
+  date        Int
+  description String?
+}
