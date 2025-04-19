@@ -23,6 +23,7 @@ CREATE TABLE "Todo" (
 CREATE TABLE "Finance" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "amount" DECIMAL NOT NULL,
+    "type" TEXT NOT NULL,
     "date" INTEGER NOT NULL,
     "description" TEXT
 );

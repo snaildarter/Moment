@@ -51,6 +51,12 @@ enum TodoStatus {
 model Finance {
   id          Int         @id @default(autoincrement())
   amount      Decimal
+  type        FinanceType
   date        Int
   description String?
+}
+
+enum FinanceType {
+  Income
+  Outflow
 }

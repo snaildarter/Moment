@@ -7,7 +7,7 @@ export async function GET() {
     const todos = await prisma.todo.findMany();
     return NextResponse.json(todos);
   } catch (error) {
-    return NextResponse.json({ error: '获取待办事项失败' }, { status: 500 });
+    return NextResponse.json({ error: '获取待办事项失败', data: error }, { status: 500 });
   }
 }
 
@@ -18,6 +18,6 @@ export async function POST(request: NextRequest) {
     const newTodo = await prisma.todo.create({ data });
     return NextResponse.json(newTodo, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ error: '创建待办事项失败' }, { status: 500 });
+    return NextResponse.json({ error: '创建待办事项失败', data: error }, { status: 500 });
   }
 }
