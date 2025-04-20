@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import {
   Box,
   Button,
+  Checkbox,
   Collapse,
   Dialog,
   Input,
@@ -29,7 +30,6 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import { config } from 'process';
 // 此问题通常是由于 dayjs 导入或类型定义问题导致的。
 // 尝试直接导入默认导出的 dayjs 来解决该问题。
 dayjs().format();
@@ -166,6 +166,22 @@ export default function Home() {
     setAmountType(e.target.value);
   };
 
+  // 提取的事件处理函数
+const handleTodoStatusChange = (item: any) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const newStatus = e.target.checked ? 'Completed' : 'Pending';
+  // 发送请求更新服务器上的状态
+  axios.patch(`/todo`, { status: newStatus, id: item.id })
+    .then(() => {
+      // 更新本地状态
+      setTodoData(prevData => prevData.map(todo => 
+        todo.id === item.id ? { ...todo, status: newStatus } : todo
+      ));
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
   const handleClick = (item: string) => {
     if (item === 'item1') {
       return () => setItem1((preV) => !preV);
@@ -199,7 +215,7 @@ export default function Home() {
       .post('/diaryEntry', {
         title: title,
         content: content,
-        date: 20250419,
+        date: ~~dayjs().format('YYYYMMDD'),
       })
       .then((res) => {
         console.log(res.data);
@@ -224,8 +240,7 @@ export default function Home() {
         description: todoDes,
         priority: Number(priority) || 3,
         category: todoCategory,
-        createdAt: 20250419,
-        // date: 20250419,
+        createdAt: ~~dayjs().format('YYYYMMDD'),
       })
       .then((res) => {
         console.log(res.data);
@@ -249,7 +264,7 @@ export default function Home() {
         amount: amount,
         description: amountDes,
         type: amountType,
-        date: 20250419,
+        date: ~~dayjs().format('YYYYMMDD'),
       })
       .then((res) => {
         console.log(res.data);
@@ -336,6 +351,12 @@ export default function Home() {
                     <Box flex={1}>{item.priority}</Box>
                     <Box flex={1}>{item.category}</Box>
                     <Box flex={1}>{item.status}</Box>
+                    <Box flex={1}> 
+                      <Checkbox 
+                        checked={item.status === 'Pending' ? false : true} 
+                        onChange={handleTodoStatusChange(item)}
+                      />
+                    </Box>
                   </ListItem>
                 );
               })}
@@ -539,3 +560,5 @@ export default function Home() {
     </Box>
   );
 }
+
+
