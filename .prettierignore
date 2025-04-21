@@ -1,0 +1,10 @@
+.next
+node_modules
+out
+public
+generated
+*.log
+.env*
+.git
+dist
+build 

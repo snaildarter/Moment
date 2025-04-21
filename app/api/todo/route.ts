@@ -35,8 +35,8 @@ export async function PATCH(request: NextRequest) {
       where: { id },
       data: {
         status,
-        updatedAt: ~~dayjs().format('YYYYMMDD')
-      }
+        updatedAt: ~~dayjs().format('YYYYMMDD'),
+      },
     });
 
     return NextResponse.json(updatedTodo, { status: 200 });

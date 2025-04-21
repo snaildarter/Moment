@@ -67,12 +67,8 @@ export default function Home() {
   const [events, setEvents] = useState<{ title: string; date: string }[]>([]);
 
   useEffect(() => {
-    Promise.all([
-      axios.get('/diaryEntry'),
-      axios.get('/todo'),
-      axios.get('/finance'),
-    ])
-      .then((res) => {
+    Promise.all([axios.get('/diaryEntry'), axios.get('/todo'), axios.get('/finance')])
+      .then(res => {
         console.log(res, 'res');
         const allEvents = [];
         if (res[0] && res[0].length > 0) {
@@ -105,7 +101,7 @@ export default function Home() {
         setEvents(allEvents);
         console.log('allEvents :', allEvents);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   }, []);
@@ -113,19 +109,19 @@ export default function Home() {
   const toggle = (type: string) => {
     if (type === 'todo') {
       return () => {
-        setShowTodo((preV) => !preV);
+        setShowTodo(preV => !preV);
         setShowDiary(false);
         setShowFinance(false);
       };
     } else if (type === 'diary') {
       return () => {
-        setShowDiary((preV) => !preV);
+        setShowDiary(preV => !preV);
         setShowTodo(false);
         setShowFinance(false);
       };
     } else if (type === 'finance') {
       return () => {
-        setShowFinance((preV) => !preV);
+        setShowFinance(preV => !preV);
         setShowTodo(false);
         setShowDiary(false);
       };
@@ -134,23 +130,17 @@ export default function Home() {
 
   const handleChange = (type: string) => {
     if (type === 'title') {
-      return (e: React.ChangeEvent<HTMLInputElement>) =>
-        setTitle(e.target.value);
+      return (e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value);
     } else if (type === 'content') {
-      return (e: React.ChangeEvent<HTMLInputElement>) =>
-        setContent(e.target.value);
+      return (e: React.ChangeEvent<HTMLInputElement>) => setContent(e.target.value);
     } else if (type === 'amount') {
-      return (e: React.ChangeEvent<HTMLInputElement>) =>
-        setAmount(Number(e.target.value));
+      return (e: React.ChangeEvent<HTMLInputElement>) => setAmount(Number(e.target.value));
     } else if (type === 'amountDes') {
-      return (e: React.ChangeEvent<HTMLInputElement>) =>
-        setAmountDes(e.target.value);
+      return (e: React.ChangeEvent<HTMLInputElement>) => setAmountDes(e.target.value);
     } else if (type === 'todoTit') {
-      return (e: React.ChangeEvent<HTMLInputElement>) =>
-        setTodoTit(e.target.value);
+      return (e: React.ChangeEvent<HTMLInputElement>) => setTodoTit(e.target.value);
     } else if (type === 'todoDes') {
-      return (e: React.ChangeEvent<HTMLInputElement>) =>
-        setTodoDes(e.target.value);
+      return (e: React.ChangeEvent<HTMLInputElement>) => setTodoDes(e.target.value);
     }
   };
 
@@ -167,41 +157,42 @@ export default function Home() {
   };
 
   // 提取的事件处理函数
-const handleTodoStatusChange = (item: any) => (e: React.ChangeEvent<HTMLInputElement>) => {
-  const newStatus = e.target.checked ? 'Completed' : 'Pending';
-  // 发送请求更新服务器上的状态
-  axios.patch(`/todo`, { status: newStatus, id: item.id })
-    .then(() => {
-      // 更新本地状态
-      setTodoData(prevData => prevData.map(todo => 
-        todo.id === item.id ? { ...todo, status: newStatus } : todo
-      ));
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
+  const handleTodoStatusChange = (item: any) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newStatus = e.target.checked ? 'Completed' : 'Pending';
+    // 发送请求更新服务器上的状态
+    axios
+      .patch(`/todo`, { status: newStatus, id: item.id })
+      .then(() => {
+        // 更新本地状态
+        setTodoData(prevData =>
+          prevData.map(todo => (todo.id === item.id ? { ...todo, status: newStatus } : todo))
+        );
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   const handleClick = (item: string) => {
     if (item === 'item1') {
-      return () => setItem1((preV) => !preV);
+      return () => setItem1(preV => !preV);
     } else if (item === 'item2') {
-      return () => setItem2((preV) => !preV);
+      return () => setItem2(preV => !preV);
     } else if (item === 'item3') {
-      return () => setItem3((preV) => !preV);
+      return () => setItem3(preV => !preV);
     }
   };
 
   const handleModel = () => {
-    setModel((preV) => !preV);
+    setModel(preV => !preV);
   };
 
   const handleModelFinance = () => {
-    setModelFinance((preV) => !preV);
+    setModelFinance(preV => !preV);
   };
 
   const handleModelTodo = () => {
-    setModelTodo((preV) => !preV);
+    setModelTodo(preV => !preV);
   };
 
   // 处理提交按钮点击的函数
@@ -217,13 +208,13 @@ const handleTodoStatusChange = (item: any) => (e: React.ChangeEvent<HTMLInputEle
         content: content,
         date: ~~dayjs().format('YYYYMMDD'),
       })
-      .then((res) => {
+      .then(res => {
         console.log(res.data);
         setTitle('');
         setContent('');
         setModel(false);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
@@ -242,13 +233,13 @@ const handleTodoStatusChange = (item: any) => (e: React.ChangeEvent<HTMLInputEle
         category: todoCategory,
         createdAt: ~~dayjs().format('YYYYMMDD'),
       })
-      .then((res) => {
+      .then(res => {
         console.log(res.data);
         setTodoTit('');
         setTodoDes('');
         setModelTodo(false);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
@@ -266,13 +257,13 @@ const handleTodoStatusChange = (item: any) => (e: React.ChangeEvent<HTMLInputEle
         type: amountType,
         date: ~~dayjs().format('YYYYMMDD'),
       })
-      .then((res) => {
+      .then(res => {
         console.log(res.data);
         setAmount(0);
         setAmountDes('');
         setModelFinance(false);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
@@ -339,21 +330,17 @@ const handleTodoStatusChange = (item: any) => (e: React.ChangeEvent<HTMLInputEle
             {showTodo &&
               todoData &&
               todoData.length > 0 &&
-              todoData.map((item) => {
+              todoData.map(item => {
                 return (
-                  <ListItem
-                    key={item.id}
-                    component="div"
-                    sx={{ display: 'flex' }}
-                  >
+                  <ListItem key={item.id} component="div" sx={{ display: 'flex' }}>
                     <Box flex={1}>{item.title}</Box>
                     <Box flex={1}>{item.description}</Box>
                     <Box flex={1}>{item.priority}</Box>
                     <Box flex={1}>{item.category}</Box>
                     <Box flex={1}>{item.status}</Box>
-                    <Box flex={1}> 
-                      <Checkbox 
-                        checked={item.status === 'Pending' ? false : true} 
+                    <Box flex={1}>
+                      <Checkbox
+                        checked={item.status === 'Pending' ? false : true}
                         onChange={handleTodoStatusChange(item)}
                       />
                     </Box>
@@ -364,13 +351,9 @@ const handleTodoStatusChange = (item: any) => (e: React.ChangeEvent<HTMLInputEle
             {showDiary &&
               diaryData &&
               diaryData.length > 0 &&
-              diaryData.map((item) => {
+              diaryData.map(item => {
                 return (
-                  <ListItem
-                    key={item.id}
-                    component="div"
-                    sx={{ display: 'flex' }}
-                  >
+                  <ListItem key={item.id} component="div" sx={{ display: 'flex' }}>
                     <Box flex={1}>{item.title}</Box>
                     <Box flex={1}>{item.content}</Box>
                     <Box flex={1}>{item.date}</Box>
@@ -381,12 +364,8 @@ const handleTodoStatusChange = (item: any) => (e: React.ChangeEvent<HTMLInputEle
             {showFinance &&
               financeData &&
               financeData.length > 0 &&
-              financeData.map((item) => (
-                <ListItem
-                  key={item.id}
-                  component="div"
-                  sx={{ display: 'flex' }}
-                >
+              financeData.map(item => (
+                <ListItem key={item.id} component="div" sx={{ display: 'flex' }}>
                   <Box flex={1}>{item.amount}</Box>
                   <Box flex={1}>{item.description}</Box>
                   <Box flex={1}>{item.type}</Box>
@@ -560,5 +539,3 @@ const handleTodoStatusChange = (item: any) => (e: React.ChangeEvent<HTMLInputEle
     </Box>
   );
 }
-
-

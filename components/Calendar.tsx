@@ -7,7 +7,6 @@ import interactionPlugin from '@fullcalendar/interaction';
 const events = [
   { title: '会议', date: '2025-04-11' },
   { title: '午餐', date: '2025-04-21' },
-  
 ];
 
 // 定义 selfEvents 数组中每个元素的类型
@@ -27,7 +26,7 @@ const Calendar: React.FC<CalendarProps> = ({ selfEvents }) => {
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
-        events={selfEvents ||events}
+        events={selfEvents || events}
         editable={true}
         selectable={true}
       />
